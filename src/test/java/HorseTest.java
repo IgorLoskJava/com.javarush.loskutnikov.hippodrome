@@ -2,6 +2,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.lang.reflect.Field;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class HorseTest {
@@ -21,14 +23,14 @@ class HorseTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"","   ","\t","\t\t","\n","\n\n\n\n"})
+    @ValueSource(strings = {"", "   ", "\t", "\t\t", "\n", "\n\n\n\n"})
     public void horseConstructorTabSpaceException(String name) {
         assertThrows(IllegalArgumentException.class, () -> new Horse(name, 1, 1));
 
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"","   ","\t","\t\t","\n","\n\n\n\n"})
+    @ValueSource(strings = {"", "   ", "\t", "\t\t", "\n", "\n\n\n\n"})
     public void horseConstructorTabSpaceMessageException(String name) {
         try {
             new Horse(name, 1, 1);
@@ -41,6 +43,7 @@ class HorseTest {
     public void horseConstructorSecondException() {
         assertThrows(IllegalArgumentException.class, () -> new Horse("Horse", -5, 1));
     }
+
     @Test
     public void horseConstructorSecondMessageException() {
         try {
@@ -49,10 +52,12 @@ class HorseTest {
             assertEquals("Speed cannot be negative.", e.getMessage());
         }
     }
+
     @Test
     public void horseConstructorThirdException() {
         assertThrows(IllegalArgumentException.class, () -> new Horse("Horse", 1, -5));
     }
+
     @Test
     public void horseConstructorThirdMessageException() {
         try {
@@ -60,5 +65,14 @@ class HorseTest {
         } catch (IllegalArgumentException e) {
             assertEquals("Distance cannot be negative.", e.getMessage());
         }
+    }
+
+    @Test
+    public void horseConstructorGetName() throws NoSuchFieldException, IllegalAccessException {
+        Horse horse = new Horse("Horse", 1, 1);
+        Field name = Horse.class.getDeclaredField("name");
+        name.setAccessible(true);
+        String firstParam = (String) name.get(horse);
+        assertEquals("Horse", firstParam);
     }
 }
