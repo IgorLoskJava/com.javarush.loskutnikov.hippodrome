@@ -36,4 +36,29 @@ class HorseTest {
             assertEquals("Name cannot be blank.", e.getMessage());
         }
     }
+
+    @Test
+    public void horseConstructorSecondException() {
+        assertThrows(IllegalArgumentException.class, () -> new Horse("Horse", -5, 1));
+    }
+    @Test
+    public void horseConstructorSecondMessageException() {
+        try {
+            new Horse("Horse", -5, 1);
+        } catch (IllegalArgumentException e) {
+            assertEquals("Speed cannot be negative.", e.getMessage());
+        }
+    }
+    @Test
+    public void horseConstructorThirdException() {
+        assertThrows(IllegalArgumentException.class, () -> new Horse("Horse", 1, -5));
+    }
+    @Test
+    public void horseConstructorThirdMessageException() {
+        try {
+            new Horse("Horse", 1, -5);
+        } catch (IllegalArgumentException e) {
+            assertEquals("Distance cannot be negative.", e.getMessage());
+        }
+    }
 }
